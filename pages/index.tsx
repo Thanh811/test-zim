@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { ICovidInfo } from '../apis/country'
-import ListCountry from '../components/Country/ListCountry'
+import ListCountry from '../components/ListCountry'
 import styles from '../styles/Home.module.css'
 interface IProps {
   dataCovid: ICovidInfo

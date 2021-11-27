@@ -11,7 +11,7 @@ async function get(url = '', data = {}) {
     },
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
+    
   });
   return response.json(); // parses JSON response into native JavaScript objects
 }
@@ -20,6 +20,10 @@ export const getCountry = () => {
   get('https://api.covid19api.com/summary').then(data => {
     console.log(data)
   })
+}
+
+export const getCountryDetail = (code: string) => {
+  return get(`https://restcountries.com/v3.1/alpha/${code}`)
 }
 
 
