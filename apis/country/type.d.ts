@@ -17,3 +17,24 @@ export interface ICovidInfo {
   Date: string
   ID: string
 }
+
+export interface ICountryInfo {
+  name: {
+    common: string
+  }
+  flags: {
+    svg: string
+  }
+  population: number
+  capital: string[]
+  region: string,
+  subregion: string,
+}
+
+export interface ICoviInfo {
+  Confirmed:number
+  Deaths:number
+  Recovered:number
+  Active:number
+  Date: string
+}

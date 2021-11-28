@@ -6,16 +6,16 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import styled from 'styled-components'
 import CountryDetail from "./CountryDetail"
-import {ITable} from "./ListCountry"
+import CoviInfo from "./CoviInfo"
 export interface IDialogProps {
   open: boolean;
-  selectedCode: ITable;
-  onClose: (value: string) => void;
+  selectedCode: string;
+  onClose: () => void;
 }
 
 const DialogContentStyle = styled(DialogContent)`
   display: flex;
-  min-width: 500px
+  
 `
 
 const InformationDetail = ({ onClose, selectedCode, open }: IDialogProps) => {
@@ -26,14 +26,31 @@ const InformationDetail = ({ onClose, selectedCode, open }: IDialogProps) => {
 
 
   return (
-    <Dialog onClose={handleClose}  open={open}>
+    <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>Set backup account</DialogTitle>
       <DialogContentStyle>
-      <Box component="Grid" m={2}>
+        <Grid container>
+
+      <Grid item xs={12} md={4}>
+      <Box>
+
+      
         <CountryDetail code={selectedCode} />
       </Box>
-      <Box component="Grid" m={2}>haha</Box>
-      {/* <Box>hahaha</Box> */}
+      
+      </Grid>
+      <Grid item xs={12} md={8}>
+      <Box>
+
+      
+        {/* <CoviInfo />  */}
+     
+     
+      </Box>
+
+      </Grid>
+        </Grid>
+      
         
       </DialogContentStyle>
       

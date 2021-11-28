@@ -2,10 +2,13 @@ import MaterialTable, { Column } from "@material-table/core";
 import React, { useState } from "react";
 import { ICountry } from "../apis/country";
 import InformationDetail from "./InformationDetail";
+import CoviInfo from "./CoviInfo"
+
 interface IProps {
   listCountry: ICountry[];
 }
 export interface ITable {
+  index: number
   id: string;
   country: string;
   country_code: string;
@@ -20,6 +23,34 @@ export interface ITable {
 }
 
 const ListCountry = ({ listCountry }: IProps) => {
+  const [country, setCountry] = useState(listCountry.map(
+    ({
+      ID,
+      Country,
+      CountryCode,
+      Slug,
+      NewConfirmed,
+      TotalConfirmed,
+      NewDeaths,
+      TotalDeaths,
+      NewRecovered,
+      TotalRecovered,
+      Date,
+    }, index) => ({
+      index,
+      id: ID,
+      country: Country,
+      country_code: CountryCode,
+      slug: Slug,
+      new_confirmed: NewConfirmed,
+      total_confirmed: TotalConfirmed,
+      new_deaths: NewDeaths,
+      total_deaths: TotalDeaths,
+      new_recovered: NewRecovered,
+      total_recovered: TotalRecovered,
+      date: Date,
+    })
+  ))
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCode, setSelectedCode] = useState('')
   const columns: Column<ITable>[] = [
@@ -45,45 +76,33 @@ const ListCountry = ({ listCountry }: IProps) => {
     { title: "Total Recovered", field: "total_recovered", sorting: false },
     { title: "Date", field: "date", sorting: false },
   ];
-  const data: ITable[] = listCountry.map(
-    ({
-      ID,
-      Country,
-      CountryCode,
-      Slug,
-      NewConfirmed,
-      TotalConfirmed,
-      NewDeaths,
-      TotalDeaths,
-      NewRecovered,
-      TotalRecovered,
-      Date,
-    }) => ({
-      id: ID,
-      country: Country,
-      country_code: CountryCode,
-      slug: Slug,
-      new_confirmed: NewConfirmed,
-      total_confirmed: TotalConfirmed,
-      new_deaths: NewDeaths,
-      total_deaths: TotalDeaths,
-      new_recovered: NewRecovered,
-      total_recovered: TotalRecovered,
-      date: Date,
-    })
-  );
+  const data: ITable[] = country;
   return (
     <>
+    
+
       {openDialog && <InformationDetail open={openDialog} selectedCode={selectedCode} onClose={()=>{setOpenDialog(!openDialog);}}/>}
       <MaterialTable
         title="List of countries which are most affected by Covid-19"
         data={data}
         columns={columns}
-        onRowClick={(e,rowData: ITable) => {
-          console.log(rowData)
+        onRowClick={(e: any,rowData: any) => {
           setSelectedCode(rowData.country_code)
           setOpenDialog(!openDialog);
         }}
+        editable={{
+          onRowDelete: oldData  =>
+          new Promise((resolve) => {
+              const dataDelete  = [...data];
+              const index = oldData?.index ?? 0;
+              dataDelete.splice(index, 1);
+              setCountry([...dataDelete ]);
+
+              resolve(0)
+          }),
+
+        }}
+
         options={{
           sorting: true,
           search: false,
