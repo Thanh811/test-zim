@@ -53,6 +53,7 @@ const ListCountry = ({ listCountry }: IProps) => {
   ))
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCode, setSelectedCode] = useState('')
+  const [slug, setSlug] = useState('')
   const columns: Column<ITable>[] = [
     { title: "ID", field: "id", hidden: true },
     { title: "Country", field: "country", sorting: false },
@@ -81,12 +82,13 @@ const ListCountry = ({ listCountry }: IProps) => {
     <>
     
 
-      {openDialog && <InformationDetail open={openDialog} selectedCode={selectedCode} onClose={()=>{setOpenDialog(!openDialog);}}/>}
+      {openDialog && <InformationDetail open={openDialog} selectedCode={selectedCode} slug={slug} onClose={()=>{setOpenDialog(!openDialog);}}/>}
       <MaterialTable
         title="List of countries which are most affected by Covid-19"
         data={data}
         columns={columns}
         onRowClick={(e: any,rowData: any) => {
+          setSlug(rowData.slug)
           setSelectedCode(rowData.country_code)
           setOpenDialog(!openDialog);
         }}

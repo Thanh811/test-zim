@@ -26,4 +26,8 @@ export const getCountryDetail = (code: string) => {
   return get(`https://restcountries.com/v3.1/alpha/${code}`)
 }
 
+export const getDataCovi = (code: string, from: string, to: string) => {
+  return get(`https://api.covid19api.com/country/${code}?from=${from}&to=${to}`)
+}
+
 

@@ -10,6 +10,7 @@ import CoviInfo from "./CoviInfo"
 export interface IDialogProps {
   open: boolean;
   selectedCode: string;
+  slug: string
   onClose: () => void;
 }
 
@@ -18,8 +19,8 @@ const DialogContentStyle = styled(DialogContent)`
   
 `
 
-const InformationDetail = ({ onClose, selectedCode, open }: IDialogProps) => {
-  console.log(selectedCode)
+const InformationDetail = ({ onClose, selectedCode, open, slug }: IDialogProps) => {
+  
   const handleClose = () => {
     onClose();
   };
@@ -43,7 +44,7 @@ const InformationDetail = ({ onClose, selectedCode, open }: IDialogProps) => {
       <Box>
 
       
-        <CoviInfo /> 
+        <CoviInfo slug={slug}/> 
      
      
       </Box>

@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import Chart from "react-apexcharts";
+import React, { useState, useEffect, useCallback } from "react";
+import dynamic from 'next/dynamic'
+import { getDataCovi } from "../apis/country";
+
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 const data = {
   options: {
     chart: {
@@ -38,7 +42,6 @@ const data = {
       },
     },
     {
-      opposite: true,
       title: {
         text: "Deaths"
       }
@@ -51,9 +54,25 @@ const data = {
   ],
 
 };
-
-const CoviInfo = () =>  {
-  
+interface IProps {
+  slug: string
+}
+const CoviInfo = ({slug}: IProps) =>  {
+  const [categories, setCategories] = useState<string[]>([])
+  const [confirmed, setConfirmed] = useState<string[]>([])
+  const [deaths, setDeaths] = useState<string[]>([])
+  const [recovered, setRecovered] = useState<string[]>([])
+  const infoCovi = useCallback(async () => {
+    const to = new Date().toISOString()
+    const from = new Date()
+    from.setDate(from.getDate() - 5)
+    const data = await getDataCovi(slug, from.toISOString(), to)
+    console.log("🚀 ~ file: CoviInfo.tsx ~ line 70 ~ infoCovi ~ data", data)
+    // setInfoCountry(data && data[0] ? data[0] : null)
+  }, [slug])
+  useEffect(() => {
+    infoCovi()
+  }, [infoCovi])
   const [dataCovid, setDataCovid] = useState(data)
   
     return (
