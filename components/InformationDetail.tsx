@@ -43,7 +43,7 @@ const InformationDetail = ({ onClose, selectedCode, open }: IDialogProps) => {
       <Box>
 
       
-        {/* <CoviInfo />  */}
+        <CoviInfo /> 
      
      
       </Box>
